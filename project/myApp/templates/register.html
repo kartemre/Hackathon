@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kayıt Ol</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            background-color: #f0f2f5;
+        }
+        .register-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        .register-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .register-form {
+            display: flex;
+            flex-direction: column;
+        }
+        .register-form input {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .register-form button {
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .register-form button:hover {
+            background-color: #0056b3;
+        }
+        .error {
+            color: red;
+            font-size: 12px;
+            margin-bottom: 10px;
+        }
+        .login-link {
+            text-align: center;
+            margin-top: 10px;
+        }
+        .login-link a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <h2>Kayıt Ol</h2>
+        <form class="register-form" id="registerForm" action="{% url 'register' %}" method="POST">
+            {% csrf_token %}
+            <div class="error" id="errorMsg">
+                {% if errors %}
+                    <ul>
+                    {% for error in errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+            <label for="first_name">Ad</label>
+            <input type="text" id="first_name" name="first_name" required>
+            <label for="last_name">Soyad</label>
+            <input type="text" id="last_name" name="last_name" required>
+            <label for="tc">TC Kimlik Numarası</label>
+            <input type="text" id="tc" name="tc" required>
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+            <label for="password">Şifre</label>
+            <input type="password" id="password" name="password" required>
+            <label for="phone">Telefon</label>
+            <input type="text" id="phone" name="phone" required>
+            <button type="submit">Kayıt Ol</button>
+        </form>
+        <div class="login-link">
+            Zaten hesabınız var mı? <a href="{% url 'login' %}">Giriş Yap</a>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', function(event) {
+            let valid = true;
+            let errorMsg = '';
+
+            const firstName = document.getElementById('first_name').value;
+            const lastName = document.getElementById('last_name').value;
+            const tc = document.getElementById('tc').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+                        // Ad ve Soyad sadece harf içermeli
+                        const nameRegex = /^[a-zA-ZğüşıöçĞÜŞİÖÇ]+$/;
+                        if (!nameRegex.test(firstName)) {
+                            valid = false;
+                            errorMsg += 'Ad kısmı sadece harf içerebilir.<br>';
+                        }
+                        if (!nameRegex.test(lastName)) {
+                            valid = false;
+                            errorMsg += 'Soyad kısmı sadece harf içerebilir.<br>';
+                        }
+                        // TC Kimlik numarası 11 haneli ve sadece rakam olmalı
+                        const tcRegex = /^[0-9]{11}$/;
+                        if (!tcRegex.test(tc)) {
+                            valid = false;
+                            errorMsg += 'TC Kimlik numarası 11 haneli olmalı ve sadece rakam içermelidir.<br>';
+                        }
+            
+                        // Telefon numarası 11 haneli ve sadece rakam olmalı
+                        const phoneRegex = /^[0-9]{11}$/;
+                        if (!phoneRegex.test(phone)) {
+                            valid = false;
+                            errorMsg += 'Telefon numarası 11 haneli olmalı ve sadece rakam içermelidir.<br>';
+                        }
+            
+                        // Email adresi formatı
+                        const emailRegex = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
+                        if (!emailRegex.test(email)) {
+                            valid = false;
+                            errorMsg += 'Geçerli bir email adresi giriniz.<br>';
+                        }
+            
+                        if (!valid) {
+                            event.preventDefault();
+                            document.getElementById('errorMsg').innerHTML = errorMsg;
+                            document.getElementById('errorMsg').style.display = 'block';
+                        }
+                    });
+                </script>
+            </body>
+            </html>

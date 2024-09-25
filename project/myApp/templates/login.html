@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giriş Yap</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            background-color: #f0f2f5;
+        }
+        .login-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        .login-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .login-form {
+            display: flex;
+            flex-direction: column;
+        }
+        .login-form input {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .login-form button {
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .login-form button:hover {
+            background-color: #0056b3;
+        }
+        .login-form .link {
+            margin-top: 10px;
+            text-align: center;
+        }
+        .login-form .link a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+        .login-form .link a:hover {
+            text-decoration: underline;
+        }
+        .error {
+            color: red;
+            font-size: 12px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Giriş Yap</h2>
+        <form class="login-form" method="POST" action="{% url 'login' %}">
+            {% csrf_token %}
+            {% if error %}
+                <p class="error">{{ error }}</p>
+            {% endif %}
+            <label for="tc">TC Kimlik Numarası</label>
+            <input type="text" id="tc" name="tc" required>
+            <label for="password">Şifre</label>
+            <input type="password" id="password" name="password" required>
+            <button type="submit">Giriş</button>
+            <div class="link">
+                <a href="{% url 'register' %}">Kayıt Ol</a>
+            </div>
+            <div class="link">
+                <a href="{% url 'forget' %}">Şifremi Unuttum</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

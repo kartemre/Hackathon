@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ana Sayfa</title>
+    <style>
+        body {
+            display: flex;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            background-color: #f0f2f5;
+        }
+        .menu-bar {
+            width: 20%;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            height: 100vh;
+        }
+        .menu-bar h3 {
+            margin-top: 0;
+        }
+        .menu-bar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .menu-bar ul li {
+            margin: 15px 0;
+        }
+        .menu-bar ul li a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+        }
+        .menu-bar ul li a:hover {
+            color: #007BFF;
+        }
+        .content {
+            width: 80%;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        .header {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .header a {
+            margin-left: 10px;
+        }
+        .header button {
+            padding: 10px 20px;
+            border-radius: 25px;
+            border: none;
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .header button:hover {
+            background-color: #0056b3;
+        }
+        .awards-section {
+            background-color: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .awards-section h2 {
+            margin-bottom: 15px;
+        }
+        .awards-section h3 {
+            margin-bottom: 10px;
+        }
+        .awards-section ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .awards-section li {
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="menu-bar">
+        <h3>Menü Bar</h3>
+        <ul>
+            <li><a href="{% url 'login' %}">Giriş Yap</a></li>
+            <li><a href="{% url 'register' %}">Kayıt Ol</a></li>
+        </ul>
+    </div>
+    <div class="content">
+        <div class="header">
+            <a href="{% url 'login' %}"><button>Giriş Yap</button></a>
+            <a href="{% url 'register' %}"><button>Kayıt</button></a>
+        </div>
+        <div class="awards-section">
+            <h2>Yeni Ay Ödülleri</h2>
+            <div>
+                <h3>Teşvik Ödülleri</h3>
+                <ul>
+                    {% for award in incentive_awards %}
+                    <li>{{ award.name }} - {% if award.winner %} {{ award.winner.first_name }} {{ award.winner.last_name }} {% else %} Kazanan Yok {% endif %}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div>
+                <h3>Genel Ödüller</h3>
+                <ul>
+                    {% for award in general_awards %}
+                        <li>{{ award.name }} - {% if award.winner %} {{ award.winner.first_name }} {{ award.winner.last_name }} {% else %} Kazanan Yok {% endif %}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <div class="awards-section">
+            <h2>Geçen Ay Kazananlar</h2>
+            <div>
+                <h3>Teşvik Ödülleri</h3>
+                <ul>
+                    {% for award in last_month_incentive_awards %}
+                        <li>{{ award.name }} - {{ award.winner.first_name }} {{ award.winner.last_name }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div>
+                <h3>Genel Ödüller</h3>
+                <ul>
+                    {% for award in last_month_general_awards %}
+                        <li>{{ award.name }} - {{ award.winner.first_name }} {{ award.winner.last_name }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
